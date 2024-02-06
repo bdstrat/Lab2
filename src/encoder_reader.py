@@ -14,4 +14,6 @@ class Encoder:
     
     def zero(self):
         
-        
+
+if __name__ == "__main__":
+    
