@@ -1,7 +1,20 @@
 
 class Encoder:
-    """"""
+    """!
+    This class allows a motor encoder to be read continuously and without
+    over/underflow. The motor can be spun by hand or with our motor_driver.py
+    file."""
     def __init__(self, pinA, pinB, timer, chan_A, chan_B):
+        """!
+        Initializes all pins and timer channels for reading encoder values.
+        @param pinA    : pin B6 or C6; encoder channel A. With encoder channel B, motor
+        speed and position can be calculated
+        @param pinB    : pin B7 or C7; encoder channel B. With encoder channel A, motor
+        speed and position can be calculated
+        @param timer   : timer with a specified period equal to the autoreload value.
+        @param chan_A  : channel reading one encoder signal (A)
+        @param chan_B  : channel reading the other encoder signal (B)
+        """
         self.pinA = pinA
         self.pinB = pinB
         self.timer = timer
@@ -13,7 +26,11 @@ class Encoder:
         self.AR = 65535
     
     def read(self):
-        
+        """!
+        Function reads encoder values, filters overflow and underflow by comparing
+        encoder change to the autoreload value, 65535. Returns the motor position
+        relative to the last "zero."
+        """
         ######
         self.current_val = self.timer.counter()
         self.delta = self.current_val - self.last_val
@@ -28,6 +45,10 @@ class Encoder:
         return self.position
     
     def zero(self):
+        """!
+        Function allows user to reset the encoder value. After zeroing, encoder
+        continues counting as normal.
+        """
         self.position = 0
         
 
